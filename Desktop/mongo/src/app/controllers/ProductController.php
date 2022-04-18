@@ -16,8 +16,9 @@ class ProductController extends Controller
     public function addhelperAction()
     {
         $val = $_POST;
-        echo "<pre>";
+        // echo "<pre>";
         // print_r($val);
+        // die;
         $main=array_splice($_POST, 0, 5);
         echo "<pre>";
         // print_r($main);
@@ -33,10 +34,10 @@ class ProductController extends Controller
         // print_r($field);
 
         $variations=array();
-        for ($i = 0; $i < count($val['var']); $i += 3) {
+        for ($i = 0; $i < count($val['var']); $i += 5) {
             // array_push($field, $val['title'][$i]);
             $vari=array();
-            array_push($vari, $val['var'][$i], $val['var'][$i+1], $val['var'][$i+2]);
+            array_push($vari, $val['var'][$i], $val['var'][$i+1], $val['var'][$i+2], $val['var'][$i+3], $val['var'][$i+4]);
             // $variations+=[array() => $vari];
             array_push($variations, $vari);
         }
@@ -67,7 +68,7 @@ class ProductController extends Controller
                 foreach ($data as $v) {
                     $v = json_decode(json_encode($v, true), true);
                     if (strtolower( $v['Details']['name']) == strtolower($productsearch)) {
-                        $this->view->product =  $v;
+                        $this->view->v =  $v;
                     }
                 }
             }
@@ -103,10 +104,10 @@ class ProductController extends Controller
         // print_r($field);
 
         $variations=array();
-        for ($i = 0; $i < count($val['var']); $i += 3) {
+        for ($i = 0; $i < count($val['var']); $i += 5) {
             // array_push($field, $val['title'][$i]);
             $vari=array();
-            array_push($vari, $val['var'][$i], $val['var'][$i+1], $val['var'][$i+2]);
+            array_push($vari, $val['var'][$i], $val['var'][$i+1], $val['var'][$i+2], $val['var'][$i+3], $val['var'][$i+4]);
             // $variations+=[array() => $vari];
             array_push($variations, $vari);
         }

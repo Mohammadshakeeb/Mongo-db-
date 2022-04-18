@@ -265,18 +265,46 @@ h1 {
                         <tbody>
                             <?php
 
-                            if (isset($product)) {
+                            if (isset($v)) {
                                 $html = "";
                                 $html .= '<form method="POST" action="access"<tr>
-                                <td>' . $product['Details']['name'] . '</td>
-                                <td>' . $product['Details']['categoryname'] . '</td>
-                                <td>' . $product['Details']['price'] . '</td>
-                               <td>' . $product['Details']['stock'] . '</td>
-                                <td>' . $product['Details']['tags'] . '</td>
-                                <td><a href="display">VIEW</a> </td>
-                                <td><a href="editproduct?id=' . $product['_id']['$oid'] . '">EDIT</a> </td>
-                                <td><a href="deleteproduct?id=' . $product['_id']['$oid'] . '">DELETE</a> </td>
-                            </tr></form>';
+                                <td>' . $v['Details']['name'] . '</td>
+                                <td>' . $v['Details']['categoryname'] . '</td>
+                                <td>' . $v['Details']['price'] . '</td>
+                               <td>' . $v['Details']['stock'] . '</td>
+                                <td>' . $v['Details']['tags'] . '</td>
+                                <td><a href="#'.$v['_id']['$oid'].'">VIEW</a> </td>
+                                <td><a href="editproduct?id=' . $v['_id']['$oid'] . '">EDIT</a> </td>
+                                <td><a href="deleteproduct?id=' . $v['_id']['$oid'] . '">DELETE</a> </td>
+                            </tr></form>';?>
+
+                            <div id="<?php echo $v['_id']['$oid']; ?>" class="overlay">
+                            <div class="popup">
+                                <h1><?php echo $v['Details']['name']; ?></h1>
+                                <a class="close" href="#">&times;</a>
+                                <div class="content">
+                                    <h3>META FEILDS</h3>
+                                    <?php 
+                                    foreach($v['Additional Fields'] as $p=>$q){
+                                    echo $p." " ;
+                                    echo $q;
+                                    echo "<br>";
+                                    }
+                                    ?>
+                                    <br>
+                                    <h3>VARIATIONS</h3>
+                                    <?php 
+                                    foreach($v['Variations'] as $p=>$q){
+                                   
+                                    echo $q[0]." ";
+                                    echo $q[1]." ";
+                                    echo $q[2]." ";
+                                    echo $q[3]." ";
+                                    echo "Price: ".$q[4]." ";
+                                    echo "<br>";
+                                    }
+                                    
+
                             } else {
 
                             $result = $this->mongo->find();
@@ -318,7 +346,9 @@ h1 {
            
             echo $q[0]." ";
             echo $q[1]." ";
-            echo "Price: ".$q[2]." ";
+            echo $q[2]." ";
+            echo $q[3]." ";
+            echo "Price: ".$q[4]." ";
             echo "<br>";
             }
             ?>
