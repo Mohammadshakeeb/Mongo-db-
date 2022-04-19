@@ -46,7 +46,7 @@ class ProductController extends Controller
         // $insert=array();
         // array_push($insert, $main, $field, $variations);
        
-        $this->mongo->insertOne([
+        $this->mongo->product->insertOne([
             "Details" => $main,
             "Additional Fields"=> $field,
             "Variations" => $variations
@@ -60,7 +60,7 @@ class ProductController extends Controller
         // if(isset($_POST)){
         //     // echo "<pre>";
         //     // print_r($_POST);
-        $data = $this->mongo->find();
+        $data = $this->mongo->product->find();
         //     // die;
             if ($this->request->getPost('search')) {
                 $productsearch = $this->request->getPost('name');
@@ -112,7 +112,7 @@ class ProductController extends Controller
             array_push($variations, $vari);
         }
         echo "<pre>";
-        $updateResult = $this->mongo->updateOne(
+        $updateResult = $this->mongo->product->updateOne(
             ['_id' => new MongoDB\BSON\ObjectId($id)],
             ['$set' => [
                 "Details" => $main,
@@ -130,7 +130,7 @@ class ProductController extends Controller
         $document=[
             "_id" => new MongoDB\BSON\ObjectId($id)
         ];
-        $delete=$this->mongo->deleteOne($document);
+        $delete=$this->mongo->product->deleteOne($document);
         echo "deleted successfully";
     }
 }

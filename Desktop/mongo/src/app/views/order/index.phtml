@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+</head>
+<body>
+    <?php  $data = $this->mongo->product->find(); ?>
+    <h1>Place a new Order</h1>
+    
+  <form method="POST" action="order/order">  
+<label for="product">CHOOSE A PRODUCT:</label>
+                        <select id="product" id="product" name="product">
+                        <option>Select</option>
+                            <?php
+                            
+                            foreach($data as $v1){
+                                $v1 = json_decode(json_encode($v1, true), true);?>
+                                
+                            <option value="<?php echo $v1['_id']['$oid']?>"><?php echo $v1['Details']['name']; ?></option><?php } ?>
+                            
+                        </select><br>
+                        <div id="variation">
+
+                        </div>
+                        
+                     
+                                    <label for="name">Name:</label>
+                        <input type="text" name="customer_name" placeholder="Customer Name">
+
+                        <label for="name">Quantity:</label>
+                        <input type="text" name="quantity" placeholder="Enter Quantity">
+                        <input type="submit" class="btn btn-primary" value="Place Order">
+                                </form>
+                                    
+         <script>
+             $(document).ready(function(){
+    $(document).on('change', '#product',function(){   
+        console.log(19);   
+        id = $(this).val();
+        console.log(id);  
+     $.ajax(
+         {
+         'url': '/order/getproduct',
+         'method':'POST',
+         'data' : {'product_id':$(this).val()},
+         'datatype' : 'JSON'
+     }).done(function(data){     
+         jData = JSON.parse(data);
+         console.log(jData['Variations']);
+         if(jData['Variations'].length !=0){
+             text=getVariation(jData);
+             $("#variation").html(text);
+         }else{
+             $("#variation").html("");
+         }
+     });
+    });
+});
+
+
+function getVariation(data){
+    variations_data = data['Variations'];
+    text = '<table>';
+    for (i=0; i<variations_data.length; i++) {
+        text += '<input type="radio" name="variant" value='+i+'><b>Variant '+(i+1)+'</b><br>';
+        for (var j in variations_data[i]) {
+            text += '<tr>'+j+' : '+variations_data[i][j]+'</tr><br>';
+        }
+        text += '<br>';
+    }
+    text += '</table>';
+    return text;
+}
+         </script>
+</body>
+</html>
